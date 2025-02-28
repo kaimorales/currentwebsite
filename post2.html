@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The ThinkPad - Kai Morales</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables */
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #121212;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --accent: #9ac8ed;
+            --accent-light: rgba(100, 255, 218, 0.1);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Base Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 0;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5 {
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin: 2.5rem 0 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            transform: scaleX(0.3);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        h2:hover::after {
+            transform: scaleX(1);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* Header & Navigation */
+        header {
+            padding: 2rem 0;
+            position: relative;
+        }
+
+        nav {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            position: relative;
+            padding: 1.5rem 0;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links li a {
+            position: relative;
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links li a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links li a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links li a:hover::before {
+            width: 100%;
+        }
+
+        /* Mobile Menu Button */
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Post Layout */
+        .post-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .post-content {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 2.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .post-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .post-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .post-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .post-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .post-content img {
+            width: 100%;
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            display: block;
+        }
+
+        .post-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .post-section h3 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        .post-body p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .image-grid img {
+            margin: 0;
+        }
+
+        .post-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .post-nav-item {
+            max-width: 48%;
+        }
+
+        .post-nav-label {
+            font-size: 0.9rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .post-nav-title {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .post-nav-title:hover {
+            color: var(--accent);
+        }
+
+        /* Sidebar */
+        .post-sidebar {
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+        }
+
+        .sidebar-widget {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+        }
+
+        .widget-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 0.75rem;
+        }
+
+        .toc-list a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .toc-list a:hover {
+            color: var(--accent);
+        }
+
+        .toc-list a::before {
+            content: '>';
+            color: var(--accent);
+            margin-right: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .recent-posts-list {
+            list-style: none;
+        }
+
+        .recent-posts-list li {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .recent-posts-list li:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .recent-post-title {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+        }
+
+        .recent-post-title a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .recent-post-title a:hover {
+            color: var(--accent);
+        }
+
+        .recent-post-date {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .author-name {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+        }
+
+        .author-bio {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--bg-secondary);
+            color: var(--accent);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(30deg);
+            background: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: var(--bg-secondary);
+            color: var(--accent);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            background: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .post-content {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .post-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .post-sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                font-size: 0.95rem;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .post-title {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                height: 100vh;
+                width: 70%;
+                background: var(--bg-secondary);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: right 0.3s ease;
+                z-index: 1000;
+            }
+
+            .nav-links.active {
+                right: 0;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .menu-btn {
+                display: block;
+                z-index: 1001;
+            }
+
+            .post-content {
+                padding: 1.5rem;
+            }
+
+            .post-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .post-nav {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .post-nav-item {
+                max-width: 100%;
+            }
+
+            .image-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .theme-toggle, .back-to-top {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">About</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="reading-list.html">Recommended</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                </ul>
+                <button class="menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </header>
+
+        <main>
+            <div class="post-layout">
+                <div class="post-content">
+                    <div class="post-header">
+                        <h1 class="post-title">The ThinkPad</h1>
+                        <div class="post-meta">
+                            <div class="post-meta-item">
+                                <i class="far fa-calendar"></i>
+                                <span>October 27, 2024</span>
+                            </div>
+                            <div class="post-meta-item">
+                                <i class="far fa-folder"></i>
+                                <span>Technology</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="post-body">
+                        <div class="post-section">
+                            <h3 id="t420s">T420s: The beginning</h3>
+                            <p>My first ThinkPad was the T420s, which I got for just $65 on eBay. Released in 2011 as part of Lenovo's renowned T-series, this model quickly became a favorite in the tech community for its durability and performance. It featured an Intel Core i5 or i7, a 14-inch display, and an option for discrete NVIDIA graphics. I ran Arch Linux with GNOME on mine, which was perfect for learning Linux.</p>
+                            
+                            <p>The T420s is known for being one of the most reliable workhorses, and using it gave me a solid foundation in both Linux and ThinkPad hardware. The laptop had great build quality, and despite its age, it performed well for basic tasks. It was the first step in my journey into the world of ThinkPads and open-source operating systems.</p>
+                            
+                            <img src="assets/t420.jpeg" alt="ThinkPad T420s laptop" />
+                        </div>
+
+                        <div class="post-section">
+                            <h3 id="x220">X220: A Personal Favorite</h3>
+                            <p>After the T420s, I moved on to the X220, another beloved ThinkPad model. The X220, launched in 2011, is often regarded as one of the best compact laptops Lenovo ever made. It had a 2nd-gen Intel i5, a 12.5-inch display, and a great keyboard—the last in the classic ThinkPad style before Lenovo switched to chiclet keys. I picked mine up for $50, but it had a faulty motherboard, so I bought a second one and replaced it myself. This hands-on repair solidified my love for ThinkPads, as they're incredibly easy to open up and tinker with.</p>
+                            
+                            <p>Once fixed, I upgraded it to 16GB of RAM and added a 2TB SSD. Running Arch Linux with the i3 window manager was a game-changer for me. Navigating entirely via the keyboard made me feel much more efficient, and the i3 setup kept me focused. The X220 wasn't the fastest machine, but for web browsing, coding, and basic tasks, it was perfect. I loved this laptop and even sold it for $250 after restoring it to near-mint condition. Despite its age, the X220 remains one of my favorite laptops due to its portability, performance, and upgradability.</p>
+                            
+                            <div class="image-grid">
+                                <img src="assets/x2201.jpeg" alt="ThinkPad X220 front view" />
+                                <img src="assets/x2202.jpeg" alt="ThinkPad X220 side view" />
+                            </div>
+                        </div>
+
+                        <div class="post-section">
+                            <h3 id="x390">X390: Modern but Redundant</h3>
+                            <p>Next, I picked up a ThinkPad X390 for about $180. Released in 2019, the X390 is a much more modern machine, featuring an 8th-gen Intel i7 processor and 16GB of RAM. This model was part of Lenovo's shift toward sleeker, lighter ultrabooks, making it a great choice for portability without sacrificing too much power.</p>
+                            
+                            <p>I loved using it—the performance was fantastic, and the battery life was solid—but alongside my MacBook, it felt a bit redundant. While it was capable of handling everything I threw at it, from web browsing to productivity tasks, I didn't need two laptops with similar functionality. I ended up selling it for the same price I bought it for, which worked out well.</p>
+                            
+                            <img src="assets/x390.JPG" alt="ThinkPad X390 laptop" />
+                        </div>
+
+                        <div class="post-section">
+                            <h3 id="x220-revival">X220 Revival: Bringing It Back to Life</h3>
+                            <p>Now, I'm in the process of trying to revive the X220 shell that served as a donor for the motherboard replacement. Even though I already had my perfect X220, I couldn't let the shell go to waste. The X220's reputation as one of the best ThinkPads ever made, thanks to its repairability and legendary keyboard, is what motivates me to keep this project alive.</p>
+                            
+                            <p>I'm working on getting it up and running again, and I'm excited about the prospect of bringing a beloved machine back to life. Stay Tuned!</p>
+                        </div>
+                    </div>
+
+                    <div class="post-nav">
+                        <div class="post-nav-item">
+                            <span class="post-nav-label">Previous Post</span>
+                            <a href="post1.html" class="post-nav-title">My Experience with Consumer E-Ink Electronics</a>
+                        </div>
+                        <div class="post-nav-item" style="text-align: right;">
+                            <span class="post-nav-label">Next Post</span>
+                            <a href="post3.html" class="post-nav-title">Inspiring Images</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="post-sidebar">
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Table of Contents</h3>
+                        <ul class="toc-list">
+                            <li><a href="#t420s">T420s: The beginning</a></li>
+                            <li><a href="#x220">X220: A Personal Favorite</a></li>
+                            <li><a href="#x390">X390: Modern but Redundant</a></li>
+                            <li><a href="#x220-revival">X220 Revival: Bringing It Back to Life</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Recent Posts</h3>
+                        <ul class="recent-posts-list">
+                            <li>
+                                <div class="recent-post-title">
+                                    <a href="#">The ThinkPad</a>
+                                </div>
+                                <div class="recent-post-date">October 27, 2024</div>
+                            </li>
+                            <li>
+                                <div class="recent-post-title">
+                                    <a href="#">My Experience with Consumer E-Ink Electronics</a>
+                                </div>
+                                <div class="recent-post-date">October 17, 2024</div>
+                            </li>
+                            <li>
+                                <div class="recent-post-title">
+                                    <a href="#">Inspiring Images</a>
+                                </div>
+                                <div class="recent-post-date">September 30, 2024</div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">About the Author</h3>
+                        <div class="author-info">
+                            <img src="assets/pfp.png" alt="Kai Morales" class="author-avatar">
+                            <div>
+                                <div class="author-name">Kai Morales</div>
+                                <div class="author-bio">Data Science student with interests in technology, motorsports, and photography.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Kai Murakami Morales. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <div class="theme-toggle" title="Toggle Dark/Light Mode">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <div class="back-to-top" title="Back to Top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // Toggle mobile menu
+        const menuBtn = document.querySelector('.menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuBtn.innerHTML = navLinks.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+
+        // Back to top button visibility
+        const backToTopBtn = document.querySelector('.back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+        
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Theme toggle functionality (dark/light mode)
+        const themeToggle = document.querySelector('.theme-toggle');
+        const root = document.documentElement;
+        let darkMode = true; // Default is dark mode
+        
+        themeToggle.addEventListener('click', () => {
+            darkMode = !darkMode;
+            
+            if (darkMode) {
+                // Dark mode
+                root.style.setProperty('--bg-primary', '#0a0a0a');
+                root.style.setProperty('--bg-secondary', '#121212');
+                root.style.setProperty('--text-primary', '#ffffff');
+                root.style.setProperty('--text-secondary', 'rgba(255, 255, 255, 0.7)');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                // Light mode
+                root.style.setProperty('--bg-primary', '#f5f5f5');
+                root.style.setProperty('--bg-secondary', '#ffffff');
+                root.style.setProperty('--text-primary', '#121212');
+                root.style.setProperty('--text-secondary', 'rgba(0, 0, 0, 0.7)');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        });
+    </script>
+</body>
+</html>

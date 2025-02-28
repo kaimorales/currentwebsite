@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inspiring Images - Kai Morales</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables */
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #121212;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --accent: #64ffda;
+            --accent-light: rgba(100, 255, 218, 0.1);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Base Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 0;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5 {
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin: 2.5rem 0 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            transform: scaleX(0.3);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        h2:hover::after {
+            transform: scaleX(1);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* Header & Navigation */
+        header {
+            padding: 2rem 0;
+            position: relative;
+        }
+
+        nav {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            position: relative;
+            padding: 1.5rem 0;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links li a {
+            position: relative;
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links li a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links li a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links li a:hover::before {
+            width: 100%;
+        }
+
+        /* Mobile Menu Button */
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Post Header */
+        .post-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .post-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .post-meta {
+            color: var(--accent);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .post-description {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        /* Image Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Generate staggered animations for gallery items */
+        .gallery-item:nth-child(1) { animation-delay: 0.05s; }
+        .gallery-item:nth-child(2) { animation-delay: 0.1s; }
+        .gallery-item:nth-child(3) { animation-delay: 0.15s; }
+        .gallery-item:nth-child(4) { animation-delay: 0.2s; }
+        .gallery-item:nth-child(5) { animation-delay: 0.25s; }
+        .gallery-item:nth-child(6) { animation-delay: 0.3s; }
+        .gallery-item:nth-child(7) { animation-delay: 0.35s; }
+        .gallery-item:nth-child(8) { animation-delay: 0.4s; }
+        .gallery-item:nth-child(9) { animation-delay: 0.45s; }
+        .gallery-item:nth-child(10) { animation-delay: 0.5s; }
+        .gallery-item:nth-child(11) { animation-delay: 0.55s; }
+        .gallery-item:nth-child(12) { animation-delay: 0.6s; }
+        .gallery-item:nth-child(13) { animation-delay: 0.65s; }
+        .gallery-item:nth-child(14) { animation-delay: 0.7s; }
+        .gallery-item:nth-child(15) { animation-delay: 0.75s; }
+        .gallery-item:nth-child(16) { animation-delay: 0.8s; }
+        .gallery-item:nth-child(17) { animation-delay: 0.85s; }
+
+        .gallery-image {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover .gallery-image {
+            transform: scale(1.05);
+        }
+
+        /* Modal for fullscreen images */
+        .image-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90vh;
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        .modal-prev, .modal-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            border: none;
+            transition: background 0.3s ease;
+        }
+
+        .modal-prev:hover, .modal-next:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-prev {
+            left: 20px;
+        }
+
+        .modal-next {
+            right: 20px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--bg-secondary);
+            color: var(--accent);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(30deg);
+            background: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: var(--bg-secondary);
+            color: var(--accent);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            background: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                font-size: 0.95rem;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .post-title {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                height: 100vh;
+                width: 70%;
+                background: var(--bg-secondary);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: right 0.3s ease;
+                z-index: 1000;
+            }
+
+            .nav-links.active {
+                right: 0;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .menu-btn {
+                display: block;
+                z-index: 1001;
+            }
+
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+
+            .modal-prev, .modal-next {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .theme-toggle, .back-to-top {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+
+            .modal-prev, .modal-next {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">About</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="reading-list.html">Recommended</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                </ul>
+                <button class="menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <div class="post-header">
+                    <h1 class="post-title">Inspiring Images</h1>
+                    <div class="post-meta">Last updated: October 24, 2024</div>
+                    <p class="post-description">A curated collection of images that inspire my creativity, aesthetic sensibilities, and design philosophy. These visuals represent the intersection of technology, minimalism, and artistic expression that I aspire to in my own work.</p>
+                </div>
+
+                <div class="gallery">
+                    <div class="gallery-item" data-index="0">
+                        <img src="assets/1.jpg" alt="Inspiring Image 1" class="gallery-image">
+                    </div>
+                    <div class="gallery-item" data-index="1">
+                        <img src="assets/2.png" alt="Inspiring Image 2" class="gallery-image">
+                    </div>
+                    <div class="gallery-item" data-index="2">
+                        <img src="assets/3.png" alt="Inspiring Image 3" class="gallery-image">
+                    </div>
+                    <div class="gallery-item" data-index="3">
+                        <img src="assets/4.png" alt="Inspiring Image 4" class="gallery-image">
+                    </div>
+                    <div class="gallery-item" data-index="4">
+                        <img src="assets/5.jpg" alt="Inspiring Image 5" class="gallery-image">
+                    </div>
+                    <div class="gallery-item" data-index="5">
+                        <img src="assets/6.png" alt="Inspiring Image 6" class="gallery-image">
+                    </div>
+                    <div class="gallery-item" data-index="6">
+                        <img src="assets/7.jpg" alt="Inspiring Image 7" class="gallery-image">
+                    </div>
+                    <div class="gallery-item" data-index="7">
+                        <img src="assets/9.jpg" alt="Inspiring Image 8" class="gallery-image">
+                    </div>
+                    <div class="gallery-item" data-index="8">
+                        <img src="assets/8.jpeg" alt="Inspiring Image 9" class="gallery-image">
+                    </div>
+                    <div class="gallery-item" data-index="9">
+                        <img src="assets/10.png" alt="Inspiring Image 10" class="gallery-image">
+                    </div>
+                    <div class="gallery-item" data-index="10">
+                        <img src="assets/11.jpg" alt="Inspiring Image 11" class="gallery-image">
+                    </div>
+                    <div class="gallery-item" data-index="11">
+                        <img src="assets/12.png" alt="Inspiring Image 12" class="gallery-image">
+                    </div>
+                    <div class="gallery-item" data-index="12">
+                        <img src="assets/13.jpg" alt="Inspiring Image 13" class="gallery-image">
+                    </div>
+                    <div class="gallery-item" data-index="13">
+                        <img src="assets/14.png" alt="Inspiring Image 14" class="gallery-image">
+                    </div>
+                    <div class="gallery-item" data-index="14">
+                        <img src="assets/15.png" alt="Inspiring Image 15" class="gallery-image">
+                    </div>
+                    <div class="gallery-item" data-index="15">
+                        <img src="assets/16.png" alt="Inspiring Image 16" class="gallery-image">
+                    </div>
+                    <div class="gallery-item" data-index="16">
+                        <img src="assets/17.jpg" alt="Inspiring Image 17" class="gallery-image">
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Kai Murakami Morales. All rights reserved.</p>
+            <p>Built with 💻 and ☕ in Pittsburgh</p>
+        </footer>
+    </div>
+
+    <!-- Image Modal -->
+    <div class="image-modal" id="imageModal">
+        <button class="modal-close" id="closeModal">
+            <i class="fas fa-times"></i>
+        </button>
+        <button class="modal-prev" id="prevImage">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="modal-content">
+            <img src="" alt="Full-size image" class="modal-image" id="fullImage">
+        </div>
+        <button class="modal-next" id="nextImage">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <div class="theme-toggle" title="Toggle Dark/Light Mode">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <div class="back-to-top" title="Back to Top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // Gallery Modal functionality
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const imageModal = document.getElementById('imageModal');
+        const fullImage = document.getElementById('fullImage');
+        const closeModal = document.getElementById('closeModal');
+        const prevImage = document.getElementById('prevImage');
+        const nextImage = document.getElementById('nextImage');
+        
+        let currentIndex = 0;
+        const imagePaths = [
+            "assets/1.jpg", "assets/2.png", "assets/3.png", "assets/4.png", "assets/5.jpg", 
+            "assets/6.png", "assets/7.jpg", "assets/9.jpg", "assets/8.jpeg", "assets/10.png", 
+            "assets/11.jpg", "assets/12.png", "assets/13.jpg", "assets/14.png", "assets/15.png", 
+            "assets/16.png", "assets/17.jpg"
+        ];
+        
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                currentIndex = parseInt(item.dataset.index);
+                fullImage.src = imagePaths[currentIndex];
+                imageModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        closeModal.addEventListener('click', () => {
+            imageModal.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        
+        prevImage.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + imagePaths.length) % imagePaths.length;
+            fullImage.src = imagePaths[currentIndex];
+        });
+        
+        nextImage.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % imagePaths.length;
+            fullImage.src = imagePaths[currentIndex];
+        });
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!imageModal.classList.contains('active')) return;
+            
+            if (e.key === 'Escape') {
+                imageModal.classList.remove('active');
+                document.body.style.overflow = '';
+            } else if (e.key === 'ArrowLeft') {
+                currentIndex = (currentIndex - 1 + imagePaths.length) % imagePaths.length;
+                fullImage.src = imagePaths[currentIndex];
+            } else if (e.key === 'ArrowRight') {
+                currentIndex = (currentIndex + 1) % imagePaths.length;
+                fullImage.src = imagePaths[currentIndex];
+            }
+        });
+        
+        // Toggle mobile menu
+        const menuBtn = document.querySelector('.menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuBtn.innerHTML = navLinks.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+
+        // Back to top button visibility
+        const backToTopBtn = document.querySelector('.back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+        
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Theme toggle functionality (dark/light mode)
+        const themeToggle = document.querySelector('.theme-toggle');
+        const root = document.documentElement;
+        let darkMode = true; // Default is dark mode
+        
+        themeToggle.addEventListener('click', () => {
+            darkMode = !darkMode;
+            
+            if (darkMode) {
+                // Dark mode
+                root.style.setProperty('--bg-primary', '#0a0a0a');
+                root.style.setProperty('--bg-secondary', '#121212');
+                root.style.setProperty('--text-primary', '#ffffff');
+                root.style.setProperty('--text-secondary', 'rgba(255, 255, 255, 0.7)');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                // Light mode
+                root.style.setProperty('--bg-primary', '#f5f5f5');
+                root.style.setProperty('--bg-secondary', '#ffffff');
+                root.style.setProperty('--text-primary', '#121212');
+                root.style.setProperty('--text-secondary', 'rgba(0, 0, 0, 0.7)');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        });
+    </script>
+</body>
+</html>

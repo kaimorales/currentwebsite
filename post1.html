@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Experience with Consumer E-Ink Electronics - Kai Morales</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables */
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #121212;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --accent: #9ac8ed;
+            --accent-light: rgba(100, 255, 218, 0.1);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Base Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 0;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5 {
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin: 2.5rem 0 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            transform: scaleX(0.3);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        h2:hover::after {
+            transform: scaleX(1);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* Header & Navigation */
+        header {
+            padding: 2rem 0;
+            position: relative;
+        }
+
+        nav {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            position: relative;
+            padding: 1.5rem 0;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links li a {
+            position: relative;
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links li a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links li a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links li a:hover::before {
+            width: 100%;
+        }
+
+        /* Mobile Menu Button */
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Post Layout */
+        .post-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .post-content {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 2.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .post-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .post-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .post-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .post-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .post-content img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .post-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .post-section h3 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        .post-body p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .rating {
+            display: inline-flex;
+            align-items: center;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .post-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .post-nav-item {
+            max-width: 48%;
+        }
+
+        .post-nav-label {
+            font-size: 0.9rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .post-nav-title {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .post-nav-title:hover {
+            color: var(--accent);
+        }
+
+        /* Sidebar */
+        .post-sidebar {
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+        }
+
+        .sidebar-widget {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+        }
+
+        .widget-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 0.75rem;
+        }
+
+        .toc-list a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .toc-list a:hover {
+            color: var(--accent);
+        }
+
+        .toc-list a::before {
+            content: '>';
+            color: var(--accent);
+            margin-right: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .recent-posts-list {
+            list-style: none;
+        }
+
+        .recent-posts-list li {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .recent-posts-list li:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .recent-post-title {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+        }
+
+        .recent-post-title a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .recent-post-title a:hover {
+            color: var(--accent);
+        }
+
+        .recent-post-date {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .author-name {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+        }
+
+        .author-bio {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--bg-secondary);
+            color: var(--accent);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(30deg);
+            background: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: var(--bg-secondary);
+            color: var(--accent);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            background: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .post-content {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .post-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .post-sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                font-size: 0.95rem;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .post-title {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                height: 100vh;
+                width: 70%;
+                background: var(--bg-secondary);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: right 0.3s ease;
+                z-index: 1000;
+            }
+
+            .nav-links.active {
+                right: 0;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .menu-btn {
+                display: block;
+                z-index: 1001;
+            }
+
+            .post-content {
+                padding: 1.5rem;
+            }
+
+            .post-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .post-nav {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .post-nav-item {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .theme-toggle, .back-to-top {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">About</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="reading-list.html">Recommended</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                </ul>
+                <button class="menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </header>
+
+        <main>
+            <div class="post-layout">
+                <div class="post-content">
+                    <div class="post-header">
+                        <h1 class="post-title">My Experience with Consumer E-Ink Electronics</h1>
+                        <div class="post-meta">
+                            <div class="post-meta-item">
+                                <i class="far fa-calendar"></i>
+                                <span>October 17, 2024</span>
+                            </div>
+                            <div class="post-meta-item">
+                                <i class="far fa-folder"></i>
+                                <span>Technology</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="post-body">
+                        <p>I've experimented with a variety of e-ink devices over the years, each offering its own unique strengths. Here's my breakdown of the ones I've used.</p>
+
+                        <div class="post-section">
+                            <h3>Remarkable 2</h3>
+                            <p>The Remarkable 2 was by far the best writing experience I've had on a tablet. The screen mimicked paper in a way no other device has matched. While its operating system was limited, the Connect feature, which displayed live updates of my writing on my laptop, was a huge plus. Battery life was impressive, needing a charge about once per week. Overall, despite the limitations, I'd consider owning one again just for the writing experience alone.</p>
+                            <div class="rating">Rating: 8/10</div>
+                        </div>
+
+                        <div class="post-section">
+                            <h3>Kindle Paperwhite</h3>
+                            <p>The Kindle Paperwhite was a decent e-reader, but I found it overpriced for what it offered. While it was easy to sideload PDFs and ePubs, the screen quality was just average, and I wasn't a fan of being locked into Amazon's ecosystem. The ads on the device were also a downside. Although it's functional, I think it's not quite worth its price tag.</p>
+                            <div class="rating">Rating: 6/10</div>
+                        </div>
+
+                        <div class="post-section">
+                            <h3>Nook Glowlight 4e</h3>
+                            <p>The Nook Glowlight 4e is very similar to the Kindle Paperwhite in terms of performance, but it's priced more reasonably. It has good battery life, comparable screen quality, and does its job well as an e-reader. For someone looking for an affordable alternative to the Kindle, this is a solid option.</p>
+                            <div class="rating">Rating: 7/10</div>
+                        </div>
+
+                        <div class="post-section">
+                            <h3>Boox Palma</h3>
+                            <p>The Boox Palma had the best e-ink screen I've seen, but its size felt slightly too large for a pocket e-reader, and the build quality left something to be desired. I loved using the Boox OS with Unlauncher, but I didn't use the device as much as I expected. In hindsight, I wouldn't buy it again due to its size, but it was a solid experience overall.</p>
+                            <div class="rating">Rating: 7/10</div>
+                        </div>
+
+                        <div class="post-section">
+                            <h3>Boox Note Air 4C</h3>
+                            <p>The Boox Note Air 4C was fantastic overall, with great screen quality and good responsiveness, though the writing feel didn't quite match the Remarkable 2. The open Android OS was its biggest advantage, allowing customization with AIO Launcher, but loading files was occasionally tedious. Syncthing helped solve that issue. The only drawback was the battery life, which lasted about three days, so if I were to buy it again, I'd go for the non-color version for better longevity.</p>
+                            <div class="rating">Rating: 8/10</div>
+                        </div>
+
+                        <div class="post-section">
+                            <h3>Hisense Touch Lite</h3>
+                            <p>The Hisense Touch Lite is the best-looking e-ink device I've used. Its build quality was superb, and the screen was great for a pocket e-reader. I ran Unlauncher on it, and I loved the open Android OS. The audio quality was also impressive. If I ever go back to pocket e-readers, this one would be at the top of my list. Though I've shifted more toward audiobooks on my phone, the Hisense Touch Lite is a device I'd highly recommend.</p>
+                            <div class="rating">Rating: 9/10</div>
+                        </div>
+
+                        <div class="post-section">
+                            <h3>What do I use now?</h3>
+                            <p>As of October 2024, I'm using the iPad Mini 6 (64GB), primarily for school notes. I love its portable size and lightweight design, and I pair it with the USB-C Apple Pencil, which works great. However, the writing feel doesn't compare to the Remarkable or Boox devices. The iPad excels in connectivity, allowing me to seamlessly integrate it with my M3 MacBook Air, and I often use it as a second monitor. While this device fits my current needs, especially for school, it's not the best overall for note-taking due to the restrictive OS.</p>
+                            <div class="rating">Rating: 8/10</div>
+                        </div>
+                    </div>
+
+                    <div class="post-nav">
+                        <div class="post-nav-item">
+                            <span class="post-nav-label">Previous Post</span>
+                            <a href="post3.html" class="post-nav-title">Inspiring Images</a>
+                        </div>
+                        <div class="post-nav-item" style="text-align: right;">
+                            <span class="post-nav-label">Next Post</span>
+                            <a href="post2.html" class="post-nav-title">The ThinkPad</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="post-sidebar">
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Table of Contents</h3>
+                        <ul class="toc-list">
+                            <li><a href="#remarkable-2">Remarkable 2</a></li>
+                            <li><a href="#kindle-paperwhite">Kindle Paperwhite</a></li>
+                            <li><a href="#nook-glowlight">Nook Glowlight 4e</a></li>
+                            <li><a href="#boox-palma">Boox Palma</a></li>
+                            <li><a href="#boox-note-air">Boox Note Air 4C</a></li>
+                            <li><a href="#hisense-touch">Hisense Touch Lite</a></li>
+                            <li><a href="#current-device">What do I use now?</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Recent Posts</h3>
+                        <ul class="recent-posts-list">
+                            <li>
+                                <div class="recent-post-title">
+                                    <a href="#">The ThinkPad</a>
+                                </div>
+                                <div class="recent-post-date">October 27, 2024</div>
+                            </li>
+                            <li>
+                                <div class="recent-post-title">
+                                    <a href="#">My Experience with Consumer E-Ink Electronics</a>
+                                </div>
+                                <div class="recent-post-date">October 17, 2024</div>
+                            </li>
+                            <li>
+                                <div class="recent-post-title">
+                                    <a href="#">Inspiring Images</a>
+                                </div>
+                                <div class="recent-post-date">September 30, 2024</div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">About the Author</h3>
+                        <div class="author-info">
+                            <img src="assets/pfp.png" alt="Kai Morales" class="author-avatar">
+                            <div>
+                                <div class="author-name">Kai Morales</div>
+                                <div class="author-bio">Data Science student with interests in technology, motorsports, and photography.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Kai Murakami Morales. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <div class="theme-toggle" title="Toggle Dark/Light Mode">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <div class="back-to-top" title="Back to Top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // Toggle mobile menu
+        const menuBtn = document.querySelector('.menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuBtn.innerHTML = navLinks.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+
+        // Back to top button visibility
+        const backToTopBtn = document.querySelector('.back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+        
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Theme toggle functionality (dark/light mode)
+        const themeToggle = document.querySelector('.theme-toggle');
+        const root = document.documentElement;
+        let darkMode = true; // Default is dark mode
+        
+        themeToggle.addEventListener('click', () => {
+            darkMode = !darkMode;
+            
+            if (darkMode) {
+                // Dark mode
+                root.style.setProperty('--bg-primary', '#0a0a0a');
+                root.style.setProperty('--bg-secondary', '#121212');
+                root.style.setProperty('--text-primary', '#ffffff');
+                root.style.setProperty('--text-secondary', 'rgba(255, 255, 255, 0.7)');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                // Light mode
+                root.style.setProperty('--bg-primary', '#f5f5f5');
+                root.style.setProperty('--bg-secondary', '#ffffff');
+                root.style.setProperty('--text-primary', '#121212');
+                root.style.setProperty('--text-secondary', 'rgba(0, 0, 0, 0.7)');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        });
+
+        // Add IDs to section headers for table of contents
+        document.querySelectorAll('.post-section h3').forEach((heading, index) => {
+            const id = heading.textContent.toLowerCase().replace(/\s+/g, '-');
+            heading.id = id;
+        });
+    </script>
+</body>
+</html>

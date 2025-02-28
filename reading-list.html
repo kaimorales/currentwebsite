@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading List - Kai Morales</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables */
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #121212;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --accent: #9ac8ed;
+            --accent-light: rgba(100, 255, 218, 0.1);
+            --border: rgba(255, 255, 255, 0.1);
+            
+            /* Category Colors */
+            --fiction-color: #4361ee;
+            --philosophy-color: #7209b7;
+            --business-color: #f72585;
+            --self-improvement-color: #4cc9f0;
+        }
+
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Base Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 0;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5 {
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin: 2.5rem 0 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            transform: scaleX(0.3);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        h2:hover::after {
+            transform: scaleX(1);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* Header & Navigation */
+        header {
+            padding: 2rem 0;
+            position: relative;
+        }
+
+        nav {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            position: relative;
+            padding: 1.5rem 0;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links li a {
+            position: relative;
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links li a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links li a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links li a:hover::before {
+            width: 100%;
+        }
+
+        /* Mobile Menu Button */
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            align-items: center;
+            padding: 2rem 0 4rem;
+            gap: 3rem;
+        }
+
+        .profile-pic {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 3px solid var(--accent);
+            transition: transform 0.5s ease;
+            object-fit: cover;
+        }
+
+        .profile-pic:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(100, 255, 218, 0.4);
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .hero-name {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-title {
+            font-size: 1.3rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .hero-location {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        /* Filter Controls */
+        .category-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            position: relative;
+            padding: 0.75rem 1.5rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .category-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: var(--accent-light);
+            z-index: -1;
+            transition: width 0.3s ease;
+        }
+
+        .category-btn:hover::before {
+            width: 100%;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .category-btn.active::before {
+            width: 100%;
+        }
+
+        /* Books Masonry */
+        .books-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s forwards 0.2s;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .book-card {
+            position: relative;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .book-card:hover {
+            transform: translateY(-15px) rotate(2deg);
+        }
+
+        .book-cover {
+            width: 100%;
+            aspect-ratio: 2/3;
+            object-fit: cover;
+        }
+
+        .book-info {
+            padding: 1.5rem;
+            background: linear-gradient(to top, var(--bg-secondary), rgba(18, 18, 18, 0.85));
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            transform: translateY(65%);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .book-card:hover .book-info {
+            transform: translateY(0);
+        }
+
+        .book-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .book-author {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .book-category {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.25rem 1rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .book-description {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .book-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .book-link:hover {
+            transform: translateX(5px);
+        }
+
+        /* Category Styles */
+        .fiction-tag {
+            background-color: rgba(67, 97, 238, 0.2);
+            color: var(--fiction-color);
+        }
+        
+        .philosophy-tag {
+            background-color: rgba(114, 9, 183, 0.2);
+            color: var(--philosophy-color);
+        }
+        
+        .business-tag {
+            background-color: rgba(247, 37, 133, 0.2);
+            color: var(--business-color);
+        }
+        
+        .self-improvement-tag {
+            background-color: rgba(76, 201, 240, 0.2);
+            color: var(--self-improvement-color);
+        }
+
+        /* Book Modal */
+        .book-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .book-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            display: flex;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            transform: scale(0.9);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .book-modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            color: var(--accent);
+        }
+
+        .modal-cover {
+            flex: 0 0 35%;
+            background: linear-gradient(45deg, var(--bg-primary), var(--bg-secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal-cover img {
+            width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+        }
+
+        .modal-info {
+            flex: 1;
+            padding: 3rem;
+            overflow-y: auto;
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .modal-author {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-category {
+            display: inline-block;
+            padding: 0.25rem 1rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        .modal-description {
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .modal-quote {
+            background: var(--bg-primary);
+            padding: 1.5rem;
+            border-left: 3px solid var(--accent);
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .modal-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .modal-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(100, 255, 218, 0.3);
+        }
+
+        /* Page Loader */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loader-hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .book-loader {
+            width: 80px;
+            height: 100px;
+            position: relative;
+        }
+
+        .book-loader::before,
+        .book-loader::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 3px;
+            background: var(--accent);
+            opacity: 0.3;
+            animation: flipping 1s infinite alternate;
+        }
+
+        .book-loader::after {
+            animation-delay: 0.25s;
+        }
+
+        @keyframes flipping {
+            0% {
+                transform: rotateY(0deg);
+            }
+            100% {
+                transform: rotateY(180deg);
+                opacity: 0.1;
+            }
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--bg-secondary);
+            color: var(--accent);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(30deg);
+            background: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: var(--bg-secondary);
+            color: var(--accent);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            background: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 3rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 1rem;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+
+            .hero-location {
+                justify-content: center;
+            }
+            
+            .modal-content {
+                flex-direction: column;
+                max-height: 80vh;
+            }
+
+            .modal-cover {
+                flex: 0 0 auto;
+                padding: 2rem 2rem 0;
+            }
+
+            .modal-cover img {
+                max-height: 40vh;
+            }
+
+            .modal-info {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                font-size: 0.95rem;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                height: 100vh;
+                width: 70%;
+                background: var(--bg-secondary);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: right 0.3s ease;
+                z-index: 1000;
+            }
+
+            .nav-links.active {
+                right: 0;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .menu-btn {
+                display: block;
+                z-index: 1001;
+            }
+
+            .books-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            }
+
+            .modal-title {
+                font-size: 1.5rem;
+            }
+
+            .modal-info {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-name {
+                font-size: 2.2rem;
+            }
+
+            .books-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .theme-toggle, .back-to-top {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .modal-content {
+                width: 95%;
+            }
+
+            .modal-cover {
+                padding: 1.5rem 1.5rem 0;
+            }
+
+            .modal-info {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="book-loader"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">About</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="reading-list.html">Recommended</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                </ul>
+                <button class="menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+            
+            <div class="hero">
+                <img src="assets/pfp.png" alt="Kai Morales Profile Picture" class="profile-pic">
+                <div class="hero-content">
+                    <h1 class="hero-name">Kai Murakami Morales<span class="cursor"></span></h1>
+                    <p class="hero-title">Data Science Student</p>
+                    <div class="hero-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Pittsburgh, PA</span>
+                    </div>
+                    <div class="social-links">
+                        <a href="mailto:kmm476@pitt.edu" class="social-link" title="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="https://linkedin.com/in/kaimorales" class="social-link" title="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://github.com/p1yte" class="social-link" title="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://kmurakami.myportfolio.com" class="social-link" title="Photography Portfolio">
+                            <i class="fas fa-camera"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section>
+                <div class="books-intro">
+                    <h2>My Reading Journey</h2>
+                    <p>These books have shaped my thinking and learning journey. Explore my collection to discover works that have influenced me across different domains.</p>
+                </div>
+
+                <div class="category-controls">
+                    <button class="category-btn active" data-category="all">All Books</button>
+                    <button class="category-btn" data-category="Fiction">Fiction</button>
+                    <button class="category-btn" data-category="Philosophy">Philosophy</button>
+                    <button class="category-btn" data-category="Business">Business</button>
+                    <button class="category-btn" data-category="Self-Improvement">Self-Improvement</button>
+                </div>
+
+                <div class="books-grid" id="booksGrid">
+                    <!-- Books will be dynamically inserted here -->
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Kai Murakami Morales. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Book Modal -->
+    <div class="book-modal" id="bookModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-cover" id="modalCover">
+                <!-- Book cover image will be inserted here -->
+            </div>
+            <div class="modal-info" id="modalInfo">
+                <!-- Book info will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <div class="theme-toggle" title="Toggle Dark/Light Mode">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <div class="back-to-top" title="Back to Top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Complete Books data with all your books
+            const books = [
+                { 
+                    title: "Stoner", 
+                    author: "John Williams", 
+                    link: "https://www.goodreads.com/book/show/166997.Stoner", 
+                    image: "assets/stoner.png", 
+                    category: "Fiction",
+                    description: "William Stoner enters the University of Missouri at nineteen to study agriculture. A seminar on English literature changes his life, and he never returns to work on his father's farm. Stoner becomes a teacher. He marries the wrong woman. His life is quiet, and after his death, his colleagues remember him rarely.",
+                    quote: "In his extreme youth Stoner had thought of love as an absolute state of being to which, if one were lucky, one might find access; in his maturity he had decided it was the heaven of a false religion, toward which one ought to gaze with an amused disbelief, a gently familiar contempt, and an embarrassed nostalgia. Now in his middle age he began to know that it was neither a state of grace nor an illusion; he saw it as a human act of becoming, a condition that was invented and modified moment by moment and day by day, by the will and the intelligence and the heart."
+                },
+                { 
+                    title: "East of Eden", 
+                    author: "John Steinbeck", 
+                    link: "https://www.goodreads.com/book/show/4406.East_of_Eden", 
+                    image: "assets/eden.jpg", 
+                    category: "Fiction",
+                    description: "Set in the rich farmland of California's Salinas Valley, this sprawling and often brutal novel follows the intertwined destinies of two families—the Trasks and the Hamiltons—whose generations helplessly reenact the fall of Adam and Eve and the poisonous rivalry of Cain and Abel.",
+                    quote: "And now that you don't have to be perfect, you can be good."
+                },
+                { 
+                    title: "This Is Water", 
+                    author: "David Foster Wallace", 
+                    link: "https://www.goodreads.com/book/show/5986375-this-is-water", 
+                    image: "assets/thisiswater.jpg", 
+                    category: "Philosophy",
+                    description: "Only once did David Foster Wallace give a public talk on his views on life, during a commencement address given in 2005 at Kenyon College. This is the audio recording of that very address.",
+                    quote: "The really important kind of freedom involves attention, and awareness, and discipline, and effort, and being able truly to care about other people and to sacrifice for them, over and over, in myriad petty little unsexy ways, every day."
+                },
+                { 
+                    title: "The Millionaire Fastlane", 
+                    author: "M.J. DeMarco", 
+                    link: "https://www.goodreads.com/book/show/18872437-the-millionaire-fastlane", 
+                    image: "assets/millionare.jpg", 
+                    category: "Business",
+                    description: "Has the 'settle-for-less' financial plan become your plan for wealth? That plan sounds a little something like this: Graduate from college, get a good job, save 10% of your paycheck, buy a used car, cancel the movie channels, quit drinking expensive Starbucks mocha lattes, save and penny-pinch your life away, trust your life-savings to Wall Street, and one day, when you are oh, say, 65 years old, you can retire rich.",
+                    quote: "The world's most successful entrepreneurs didn't have a dream of mediocrity—they dreamed of massiveness."
+                },
+                { 
+                    title: "A Mind for Numbers", 
+                    author: "Barbara Oakley", 
+                    link: "https://www.goodreads.com/book/show/18693655-a-mind-for-numbers", 
+                    image: "assets/numbers.png", 
+                    category: "Self-Improvement",
+                    description: "Whether you are a student struggling to fulfill a math or science requirement, or you are embarking on a career change that requires a new skill set, A Mind for Numbers offers the tools you need to get a better grasp of that intimidating material.",
+                    quote: "Learning is about biology, not ideology. It's about the physical changes in your brain as you remember and forget things."
+                },
+                { 
+                    title: "Project Hail Mary", 
+                    author: "Andy Weir", 
+                    link: "https://www.goodreads.com/book/show/54493401-project-hail-mary", 
+                    image: "assets/phm.jpg", 
+                    category: "Fiction",
+                    description: "Ryland Grace is the sole survivor on a desperate, last-chance mission—and if he fails, humanity and the Earth itself will perish. Except that right now, he doesn't know that. He can't even remember his own name, let alone the nature of his assignment or how to complete it.",
+                    quote: "I penetrated the outer cell membrane with a nanosyringe. You know, if you'd told me a year ago that I would be standing in space, in orbit of Tau Ceti, injecting extraterrestrial bacteria cells with custom plasmids using a nanosyringe, I would have told you... Actually, no, I would have believed that. That's completely plausible to me."
+                },
+                { 
+                    title: "$100M Offers", 
+                    author: "Alex Hormozi", 
+                    link: "https://www.goodreads.com/book/show/58612786-100m-offers", 
+                    image: "assets/100moffers.jpg", 
+                    category: "Business",
+                    description: "I took everything I learned from my journey going from sleeping on my office floor to making millions and put it in a book. My goal is for you to learn these lessons without suffering through the same hardships I did.",
+                    quote: "The more you reduce the perceived likelihood of failure, the more your customer will feel comfortable buying. If they believe they can't lose, they'll trade almost anything to win."
+                },
+                { 
+                    title: "$100M Leads", 
+                    author: "Alex Hormozi", 
+                    link: "https://www.goodreads.com/book/show/196239284-100m-leads", 
+                    image: "assets/100mleads.jpg", 
+                    category: "Business",
+                    description: "This is not a book about getting more traffic to your website. It's about how to create the most efficient, highest-converting marketing process possible, without all the complexity and frustration.",
+                    quote: "The customer exists in a state of constant discomfort where they have a problem, they know they have a problem, they don't like having the problem, they want relief from the problem, they want it solved--but they don't know how to find the solution."
+                },
+                { 
+                    title: "Where the Red Fern Grows", 
+                    author: "Wilson Rawls", 
+                    link: "https://www.goodreads.com/book/show/10365.Where_the_Red_Fern_Grows", 
+                    image: "assets/redfern.jpg", 
+                    category: "Fiction",
+                    description: "A loving threesome, they ranged the dark hills and river bottoms of Cherokee country. Old Dan had the brawn, Little Ann had the brains -- and Billy had the will to train them to be the finest hunting team in the valley.",
+                    quote: "I buried Little Ann by the side of Old Dan. I knew that was where she wanted to be. I also buried a part of my life along with my dog."
+                },
+                { 
+                    title: "Of Mice and Men", 
+                    author: "John Steinbeck", 
+                    link: "https://www.goodreads.com/book/show/890.Of_Mice_and_Men", 
+                    image: "assets/mice.jpg", 
+                    category: "Fiction",
+                    description: "The compelling story of two outsiders striving to find their place in an unforgiving world. Drifters in search of work, George and his simple-minded friend Lennie have nothing in the world except each other and a dream.",
+                    quote: "Maybe ever'body in the whole damn world is scared of each other."
+                },
+                { 
+                    title: "The Way of the Superior Man", 
+                    author: "David Deida", 
+                    link: "https://www.goodreads.com/book/show/79424.The_Way_of_the_Superior_Man", 
+                    image: "assets/man.jpg", 
+                    category: "Self-Improvement",
+                    description: "What is your true purpose in life? What do women really want? What makes a good lover? If you're a man reading this, you've undoubtedly asked yourself these questions—but you may not have had much luck answering them.",
+                    quote: "Your fear is the sharpest definition of your self. You should know it. You should feel it virtually constantly. Fear needs to become your friend, so that you are no longer uncomfortable with it."
+                },
+                { 
+                    title: "The 48 Laws of Power", 
+                    author: "Robert Greene", 
+                    link: "https://www.goodreads.com/book/show/1303.The_48_Laws_of_Power", 
+                    image: "assets/power.jpg", 
+                    category: "Business",
+                    description: "Amoral, cunning, ruthless, and instructive, this multi-million-copy New York Times bestseller is the definitive manual for anyone interested in gaining, observing, or defending against ultimate control.",
+                    quote: "When you show yourself to the world and display your talents, you naturally stir all kinds of resentment, envy, and other manifestations of insecurity... you cannot spend your life worrying about the petty feelings of others."
+                },
+                { 
+                    title: "Animal Farm", 
+                    author: "George Orwell", 
+                    link: "https://www.goodreads.com/book/show/7613.Animal_Farm", 
+                    image: "assets/farm.jpg", 
+                    category: "Fiction",
+                    description: "A farm is taken over by its overworked, mistreated animals. With flaming idealism and stirring slogans, they set out to create a paradise of progress, justice, and equality.",
+                    quote: "All animals are equal, but some animals are more equal than others."
+                },
+                { 
+                    title: "The Stranger", 
+                    author: "Albert Camus", 
+                    link: "https://www.goodreads.com/book/show/49552.The_Stranger", 
+                    image: "assets/stranger.jpg", 
+                    category: "Fiction",
+                    description: "Through the story of an ordinary man unwittingly drawn into a senseless murder on an Algerian beach, Camus explored what he termed 'the nakedness of man faced with the absurd.'",
+                    quote: "I opened myself to the gentle indifference of the world."
+                },
+                { 
+                    title: "Rich Dad, Poor Dad", 
+                    author: "Robert T. Kiyosaki", 
+                    link: "https://www.goodreads.com/book/show/69571.Rich_Dad_Poor_Dad", 
+                    image: "assets/richdad.jpg", 
+                    category: "Business",
+                    description: "Rich Dad Poor Dad is Robert's story of growing up with two dads — his real father and the father of his best friend, his rich dad — and the ways in which both men shaped his thoughts about money and investing.",
+                    quote: "The poor and the middle-class work for money. The rich have money work for them."
+                },
+                { 
+                    title: "Deep Work", 
+                    author: "Cal Newport", 
+                    link: "https://www.goodreads.com/book/show/25744928-deep-work", 
+                    image: "assets/deepwork.jpg", 
+                    category: "Philosophy",
+                    description: "Deep work is the ability to focus without distraction on a cognitively demanding task. It's a skill that allows you to quickly master complicated information and produce better results in less time.",
+                    quote: "The ability to perform deep work is becoming increasingly rare at exactly the same time it is becoming increasingly valuable in our economy. As a consequence, the few who cultivate this skill, and then make it the core of their working life, will thrive."
+                },
+                { 
+                    title: "Digital Minimalism", 
+                    author: "Cal Newport", 
+                    link: "https://www.goodreads.com/book/show/40672036-digital-minimalism", 
+                    image: "assets/digital.jpg", 
+                    category: "Philosophy",
+                    description: "Digital minimalism applies this idea to our personal technology. It's the key to living a focused life in an increasingly noisy world.",
+                    quote: "The tycoons of social media have to stop pretending that they're friendly nerd gods building a better world and admit they're just tobacco farmers in T-shirts selling an addictive product to children. Because, let's face it, checking your 'likes' is the new smoking."
+                },
+                { 
+                    title: "Can't Hurt Me", 
+                    author: "David Goggins", 
+                    link: "https://www.goodreads.com/book/show/41721428-can-t-hurt-me", 
+                    image: "assets/goggins.jpg", 
+                    category: "Self-Improvement",
+                    description: "In Can't Hurt Me, he shares his astonishing life story and reveals that most of us tap into only 40% of our capabilities. Goggins calls this The 40% Rule, and his story illuminates a path that anyone can follow to push past pain, demolish fear, and reach their full potential.",
+                    quote: "You are in danger of living a life so comfortable and soft that you will die without ever realizing your true potential."
+                },
+                { 
+                    title: "The Almanack of Naval Ravikant", 
+                    author: "Eric Jorgenson", 
+                    link: "https://www.goodreads.com/book/show/54898389-the-almanack-of-naval-ravikant", 
+                    image: "assets/naval.jpg", 
+                    category: "Self-Improvement",
+                    description: "Getting rich is not just about luck; happiness is not just a trait we are born with. These aspirations may seem out of reach, but building wealth and being happy are skills we can learn.",
+                    quote: "Seek wealth, not money or status. Wealth is having assets that earn while you sleep. Money is how we transfer time and wealth. Status is your place in the social hierarchy."
+                },
+                { 
+                    title: "The Great Gatsby", 
+                    author: "F. Scott Fitzgerald", 
+                    link: "https://www.goodreads.com/book/show/4671.The_Great_Gatsby", 
+                    image: "assets/gatsby.jpg", 
+                    category: "Fiction",
+                    description: "The story primarily concerns the young and mysterious millionaire Jay Gatsby and his quixotic passion and obsession for the beautiful former debutante Daisy Buchanan.",
+                    quote: "So we beat on, boats against the current, borne back ceaselessly into the past."
+                },
+                { 
+                    title: "The Importance of Being Earnest", 
+                    author: "Oscar Wilde", 
+                    link: "https://www.goodreads.com/book/show/92303.The_Importance_of_Being_Earnest", 
+                    image: "assets/earnest.jpg", 
+                    category: "Fiction",
+                    description: "Oscar Wilde's madcap farce about mistaken identities, secret engagements, and lovers' entanglements still delights readers more than a century after its 1895 publication and premiere performance.",
+                    quote: "The truth is rarely pure and never simple."
+                },
+                { 
+                    title: "Macbeth", 
+                    author: "William Shakespeare", 
+                    link: "https://www.goodreads.com/book/show/8852.Macbeth", 
+                    image: "assets/macbeth.jpg", 
+                    category: "Fiction",
+                    description: "One of Shakespeare's darkest and most psychological plays, Macbeth tells the story of a Scottish general who receives a prophecy from three witches that he will become king.",
+                    quote: "Stars, hide your fires; Let not light see my black and deep desires."
+                },
+                { 
+                    title: "To Kill a Mockingbird", 
+                    author: "Harper Lee", 
+                    link: "https://www.goodreads.com/book/show/2657.To_Kill_a_Mockingbird", 
+                    image: "assets/kill.jpg", 
+                    category: "Fiction",
+                    description: "The unforgettable novel of a childhood in a sleepy Southern town and the crisis of conscience that rocked it, To Kill A Mockingbird became both an instant bestseller and a critical success when it was first published in 1960.",
+                    quote: "You never really understand a person until you consider things from his point of view... Until you climb inside of his skin and walk around in it."
+                },
+                { 
+                    title: "The Subtle Art of Not Giving a F*ck", 
+                    author: "Mark Manson", 
+                    link: "https://www.goodreads.com/book/show/28257707-the-subtle-art-of-not-giving-a-f-ck", 
+                    image: "assets/fuck.jpg", 
+                    category: "Self-Improvement",
+                    description: "In this generation-defining self-help guide, a superstar blogger cuts through the crap to show us how to stop trying to be positive all the time so that we can truly become better, happier people.",
+                    quote: "The desire for more positive experience is itself a negative experience. And, paradoxically, the acceptance of one's negative experience is itself a positive experience."
+                },
+                { 
+                    title: "The Grapes of Wrath", 
+                    author: "John Steinbeck", 
+                    link: "https://www.goodreads.com/book/show/4395.The_Grapes_of_Wrath", 
+                    image: "assets/grapes.jpg", 
+                    category: "Fiction",
+                    description: "The Pulitzer Prize-winning epic of the Great Depression, a book that galvanized—and sometimes outraged—millions of readers at the height of the Dust Bowl migration.",
+                    quote: "There ain't no sin and there ain't no virtue. There's just stuff people do."
+                }
+            ];
+
+            // DOM Elements
+            const booksGrid = document.getElementById('booksGrid');
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            const bookModal = document.getElementById('bookModal');
+            const modalClose = document.getElementById('modalClose');
+            const modalCover = document.getElementById('modalCover');
+            const modalInfo = document.getElementById('modalInfo');
+            const pageLoader = document.getElementById('pageLoader');
+
+            // Current filter
+            let currentFilter = 'all';
+
+            // Initialize: Display books
+            function displayBooks() {
+                // Clear grid
+                booksGrid.innerHTML = '';
+                
+                // Filter books
+                const filteredBooks = currentFilter === 'all' 
+                    ? books 
+                    : books.filter(book => book.category === currentFilter);
+                
+                // Add books to grid with staggered animation delay
+                filteredBooks.forEach((book, index) => {
+                    const bookCard = createBookCard(book);
+                    bookCard.style.animationDelay = `${0.1 + (index * 0.05)}s`;
+                    booksGrid.appendChild(bookCard);
+                });
+            }
+
+            // Create a book card
+            function createBookCard(book) {
+                const categoryClass = book.category.toLowerCase().replace(/ /g, '-');
+                
+                const bookCard = document.createElement('div');
+                bookCard.classList.add('book-card');
+                bookCard.setAttribute('data-title', book.title);
+                
+                bookCard.innerHTML = `
+                    <img src="${book.image}" alt="${book.title}" class="book-cover">
+                    <div class="book-category ${categoryClass}-tag">${book.category}</div>
+                    <div class="book-info">
+                        <h3 class="book-title">${book.title}</h3>
+                        <p class="book-author">by ${book.author}</p>
+                        <p class="book-description">${book.description}</p>
+                        <a href="javascript:void(0)" class="book-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                `;
+                
+                // Add click event to show modal
+                bookCard.addEventListener('click', () => {
+                    showBookModal(book);
+                });
+                
+                return bookCard;
+            }
+
+            // Show book modal
+            function showBookModal(book) {
+                const categoryClass = book.category.toLowerCase().replace(/ /g, '-');
+                
+                modalCover.innerHTML = `
+                    <img src="${book.image}" alt="${book.title}">
+                `;
+                
+                modalInfo.innerHTML = `
+                    <h2 class="modal-title">${book.title}</h2>
+                    <p class="modal-author">by ${book.author}</p>
+                    <span class="modal-category ${categoryClass}-tag">${book.category}</span>
+                    <p class="modal-description">${book.description}</p>
+                    ${book.quote ? `<blockquote class="modal-quote">"${book.quote}"</blockquote>` : ''}
+                    <a href="${book.link}" target="_blank" class="modal-link">
+                        <i class="fas fa-book"></i> View on Goodreads
+                    </a>
+                `;
+                
+                bookModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            // Close book modal
+            function closeBookModal() {
+                bookModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            // Filter books by category
+            function filterBooks(category) {
+                currentFilter = category;
+                
+                // Update active button
+                categoryButtons.forEach(button => {
+                    button.classList.toggle('active', button.dataset.category === category);
+                });
+                
+                // Refresh books display
+                displayBooks();
+            }
+
+            // Toggle mobile menu
+            const menuBtn = document.querySelector('.menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+            
+            menuBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                menuBtn.innerHTML = navLinks.classList.contains('active') 
+                    ? '<i class="fas fa-times"></i>' 
+                    : '<i class="fas fa-bars"></i>';
+            });
+
+            // Back to top button
+            const backToTopBtn = document.querySelector('.back-to-top');
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Theme toggle
+            const themeToggle = document.querySelector('.theme-toggle');
+            const root = document.documentElement;
+            let darkMode = true;
+            
+            themeToggle.addEventListener('click', () => {
+                darkMode = !darkMode;
+                
+                if (darkMode) {
+                    root.style.setProperty('--bg-primary', '#0a0a0a');
+                    root.style.setProperty('--bg-secondary', '#121212');
+                    root.style.setProperty('--text-primary', '#ffffff');
+                    root.style.setProperty('--text-secondary', 'rgba(255, 255, 255, 0.7)');
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                } else {
+                    root.style.setProperty('--bg-primary', '#f5f5f5');
+                    root.style.setProperty('--bg-secondary', '#ffffff');
+                    root.style.setProperty('--text-primary', '#121212');
+                    root.style.setProperty('--text-secondary', 'rgba(0, 0, 0, 0.7)');
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                }
+            });
+
+            // Event Listeners
+            // Category filter buttons
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterBooks(button.dataset.category);
+                });
+            });
+            
+            // Modal close
+            modalClose.addEventListener('click', closeBookModal);
+            bookModal.addEventListener('click', (e) => {
+                if (e.target === bookModal) {
+                    closeBookModal();
+                }
+            });
+            
+            // Keyboard events
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeBookModal();
+                }
+            });
+
+            // Preload images
+            function preloadImages() {
+                books.forEach(book => {
+                    const img = new Image();
+                    img.src = book.image;
+                });
+            }
+
+            // Page load event
+            window.addEventListener('load', () => {
+                // Hide loader
+                setTimeout(() => {
+                    pageLoader.classList.add('loader-hidden');
+                }, 800);
+                
+                // Prevent loader from blocking clicks
+                setTimeout(() => {
+                    pageLoader.style.display = 'none';
+                }, 1300);
+            });
+
+            // Initialize
+            preloadImages();
+            displayBooks();
+        });
+    </script>
+</body>
+</html>
