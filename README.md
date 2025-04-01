@@ -1,1 +1,1 @@
-personal website for kai murakami morales @ kmurakami.com
+personal website for kai murakami morales (inactive)
